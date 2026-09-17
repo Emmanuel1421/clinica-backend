@@ -7,5 +7,6 @@ export interface IUserRepository {
   create(user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User>;
   update(id: string, user: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>): Promise<User>;
   delete(id: string): Promise<void>;
-  findAll(): Promise<User[]>;
+  findAll(limit: number, offset: number): Promise<User[]>;
+  count(): Promise<number>;
 }
