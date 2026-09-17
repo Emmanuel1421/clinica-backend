@@ -8,8 +8,9 @@ export interface RegisterDTO {
 }
 
 export interface LoginDTO {
-  email: string;
+  cnpj: string;
   passwordRaw: string;
+  termsAccepted: boolean;
 }
 
 export interface AuthResponse {
