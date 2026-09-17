@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClinicaPro — Sistema de Gestão</title>
+  <meta name="description" content="Sistema de gestão para clínicas: pacientes, produtos e muito mais." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA: LOGIN
+═══════════════════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="login-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <main class="login-container">
+    <div class="login-card glass">
+      <div class="login-header">
+        <div class="logo-icon">⚕</div>
+        <h1 class="login-title">ClinicaPro</h1>
+        <p class="login-subtitle">Sistema de Gestão Clínica</p>
+      </div>
+
+      <form id="form-login" novalidate>
+        <div class="field-group">
+          <label for="login-cnpj">CNPJ</label>
+          <input id="login-cnpj" type="text" inputmode="numeric" maxlength="18"
+                 placeholder="00.000.000/0000-00" autocomplete="username" required />
+          <span class="field-error" id="err-cnpj"></span>
+        </div>
+
+        <div class="field-group">
+          <label for="login-password">Senha</label>
+          <div class="input-eye-wrap">
+            <input id="login-password" type="password" maxlength="128" minlength="8"
+                   placeholder="Sua senha" autocomplete="current-password" required />
+            <button type="button" class="eye-btn" id="toggle-pwd" aria-label="Mostrar senha">
+              <span id="eye-icon">👁</span>
+            </button>
+          </div>
+          <span class="field-error" id="err-pwd"></span>
+        </div>
+
+        <div class="field-group terms-group">
+          <label class="checkbox-label">
+            <input id="terms" type="checkbox" required />
+            <span class="custom-checkbox"></span>
+            <span>Li e aceito o <a href="#" class="link" id="open-terms">Termo de Compromisso</a></span>
+          </label>
+          <span class="field-error" id="err-terms"></span>
+        </div>
+
+        <div id="login-error" class="alert alert-error hidden"></div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="btn-login">
+          <span class="btn-text">Entrar</span>
+          <span class="btn-spinner hidden">⏳</span>
+        </button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODAL: TERMO DE COMPROMISSO
+═══════════════════════════════════════════════════════ -->
+<div id="modal-terms" class="modal-overlay hidden">
+  <div class="modal glass">
+    <div class="modal-header">
+      <h2>Termo de Compromisso</h2>
+      <button class="close-btn" id="close-terms">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Ao utilizar este sistema, você concorda com:</p>
+      <ul>
+        <li>Manter sigilo absoluto sobre as informações dos pacientes.</li>
+        <li>Utilizar o sistema somente para fins legítimos de gestão clínica.</li>
+        <li>Não compartilhar credenciais de acesso com terceiros.</li>
+        <li>Responsabilizar-se pelos dados cadastrados no sistema.</li>
+        <li>Cumprir com a Lei Geral de Proteção de Dados (LGPD).</li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" id="accept-terms">Aceitar e Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     LAYOUT PRINCIPAL (após login)
+═══════════════════════════════════════════════════════ -->
+<div id="page-app" class="page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar glass" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon small">⚕</div>
+      <span class="sidebar-title">ClinicaPro</span>
+      <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="pacientes" id="nav-pacientes">
+        <span class="nav-icon">👥</span><span class="nav-label">Pacientes</span>
+      </a>
+      <a href="#" class="nav-item" data-page="produtos" id="nav-produtos">
+        <span class="nav-icon">📦</span><span class="nav-label">Produtos</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-ghost" id="btn-logout">
+        <span>🚪</span><span class="nav-label">Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main-content" id="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar glass">
+      <div class="topbar-left">
+        <h2 id="page-title">Pacientes</h2>
+      </div>
+      <div class="topbar-right">
+        <div class="user-chip">
+          <span class="user-avatar">🏥</span>
+          <span id="user-cnpj-display">—</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── PÁGINA: PACIENTES ── -->
+    <section id="section-pacientes" class="content-section active">
+      <div class="section-toolbar">
+        <div class="search-wrap">
+          <input type="search" id="search-pacientes" placeholder="Buscar paciente..." class="search-input" />
+        </div>
+        <button class="btn btn-primary" id="btn-novo-paciente">+ Novo Paciente</button>
+      </div>
+
+      <div id="pacientes-alert" class="alert hidden"></div>
+
+      <div class="table-wrap glass">
+        <table class="data-table" id="table-pacientes">
+          <thead>
+            <tr>
+              <th>Nome</th><th>CPF</th><th>Nascimento</th><th>Telefone</th><th>E-mail</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-pacientes">
+            <tr><td colspan="6" class="table-empty">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pag-pacientes"></div>
+    </section>
+
+    <!-- ── PÁGINA: PRODUTOS ── -->
+    <section id="section-produtos" class="content-section">
+      <div class="section-toolbar">
+        <div class="search-wrap">
+          <input type="search" id="search-produtos" placeholder="Buscar produto..." class="search-input" />
+        </div>
+        <button class="btn btn-primary" id="btn-novo-produto">+ Novo Produto</button>
+      </div>
+
+      <div id="produtos-alert" class="alert hidden"></div>
+
+      <div class="table-wrap glass">
+        <table class="data-table" id="table-produtos">
+          <thead>
+            <tr>
+              <th>Código</th><th>Nome</th><th>Preço</th><th>Estoque</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-produtos">
+            <tr><td colspan="5" class="table-empty">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pag-produtos"></div>
+    </section>
+
+  </div>
+</div>
+
+<!-- MODAL: PACIENTE -->
+<div id="modal-paciente" class="modal-overlay hidden">
+  <div class="modal glass modal-lg">
+    <div class="modal-header">
+      <h2 id="modal-paciente-title">Novo Paciente</h2>
+      <button class="close-btn" id="close-paciente">✕</button>
+    </div>
+    <form id="form-paciente" novalidate>
+      <input type="hidden" id="paciente-id" />
+      <div class="modal-body form-grid">
+        <div class="field-group">
+          <label for="p-name">Nome *</label>
+          <input id="p-name" type="text" maxlength="150" placeholder="Nome completo" required />
+          <span class="field-error" id="err-p-name"></span>
+        </div>
+        <div class="field-group">
+          <label for="p-cpf">CPF *</label>
+          <input id="p-cpf" type="text" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" required />
+          <span class="field-error" id="err-p-cpf"></span>
+        </div>
+        <div class="field-group">
+          <label for="p-birth">Data de Nascimento *</label>
+          <input id="p-birth" type="date" required />
+          <span class="field-error" id="err-p-birth"></span>
+        </div>
+        <div class="field-group">
+          <label for="p-phone">Telefone</label>
+          <input id="p-phone" type="tel" maxlength="15" placeholder="(00) 00000-0000" />
+        </div>
+        <div class="field-group">
+          <label for="p-email">E-mail</label>
+          <input id="p-email" type="email" maxlength="254" placeholder="email@exemplo.com" />
+          <span class="field-error" id="err-p-email"></span>
+        </div>
+        <div class="field-group field-group--full">
+          <label for="p-address">Endereço</label>
+          <input id="p-address" type="text" maxlength="255" placeholder="Rua, número, bairro, cidade" />
+        </div>
+      </div>
+      <div id="paciente-form-error" class="alert alert-error hidden"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="cancel-paciente">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="save-paciente">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: PRODUTO -->
+<div id="modal-produto" class="modal-overlay hidden">
+  <div class="modal glass modal-lg">
+    <div class="modal-header">
+      <h2 id="modal-produto-title">Novo Produto</h2>
+      <button class="close-btn" id="close-produto">✕</button>
+    </div>
+    <form id="form-produto" novalidate>
+      <input type="hidden" id="produto-id" />
+      <div class="modal-body form-grid">
+        <div class="field-group">
+          <label for="prod-codigo">Código *</label>
+          <input id="prod-codigo" type="text" maxlength="50" placeholder="PROD-001" required />
+          <span class="field-error" id="err-prod-codigo"></span>
+        </div>
+        <div class="field-group">
+          <label for="prod-name">Nome *</label>
+          <input id="prod-name" type="text" maxlength="150" placeholder="Nome do produto" required />
+          <span class="field-error" id="err-prod-name"></span>
+        </div>
+        <div class="field-group">
+          <label for="prod-preco">Preço (R$) *</label>
+          <input id="prod-preco" type="number" min="0" step="0.01" placeholder="0.00" required />
+          <span class="field-error" id="err-prod-preco"></span>
+        </div>
+        <div class="field-group">
+          <label for="prod-estoque">Estoque *</label>
+          <input id="prod-estoque" type="number" min="0" step="1" placeholder="0" required />
+          <span class="field-error" id="err-prod-estoque"></span>
+        </div>
+        <div class="field-group field-group--full">
+          <label for="prod-desc">Descrição</label>
+          <textarea id="prod-desc" maxlength="500" placeholder="Descrição do produto (opcional)" rows="3"></textarea>
+        </div>
+      </div>
+      <div id="produto-form-error" class="alert alert-error hidden"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="cancel-produto">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="save-produto">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: CONFIRMAÇÃO -->
+<div id="modal-confirm" class="modal-overlay hidden">
+  <div class="modal glass modal-sm">
+    <div class="modal-header">
+      <h2>Confirmar Exclusão</h2>
+    </div>
+    <div class="modal-body">
+      <p id="confirm-msg">Tem certeza que deseja excluir este registro?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="cancel-confirm">Cancelar</button>
+      <button class="btn btn-danger" id="ok-confirm">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
