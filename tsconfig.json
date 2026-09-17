@@ -11,7 +11,7 @@
     "moduleResolution": "Bundler",
     "target": "esnext",
     "esModuleInterop": true,
-    "types": [],
+    "types": ["node", "jest"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
