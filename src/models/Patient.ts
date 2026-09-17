@@ -3,9 +3,9 @@ export interface Patient {
   name: string;
   cpf: string;
   birthDate: Date;
-  phone: string;
-  email: string;
-  address: string;
+  phone?: string;
+  email?: string;
+  address?: string;
   createdAt: Date;
   updatedAt: Date;
 }
