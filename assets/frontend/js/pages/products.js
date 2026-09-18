@@ -233,6 +233,7 @@ async function renderProductForm(editId) {
 
   const priceInput = document.getElementById('product-price');
   applyMask(priceInput, maskCurrency);
+  blockCopyPasteInForm(document.getElementById('product-form'));
 
   // ── Navigation ──
   document.getElementById('btn-back-products').addEventListener('click', () => renderProductsPage());

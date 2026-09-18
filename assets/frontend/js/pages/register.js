@@ -103,6 +103,7 @@ function renderRegisterPage() {
   // ── Mask ──
   const cnpjInput = document.getElementById('reg-cnpj');
   applyMask(cnpjInput, maskCnpj);
+  blockCopyPasteInForm(document.getElementById('register-form'));
 
   // ── Password toggles ──
   document.getElementById('reg-pw-toggle').addEventListener('click', () => {

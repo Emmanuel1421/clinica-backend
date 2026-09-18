@@ -49,3 +49,23 @@ export function isValidCnpj(cnpj: string): boolean {
 export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+/**
+ * Valida telefone brasileiro:
+ * - Fixo: 10 dígitos (DDD 11-99 + 8 dígitos)
+ * - Celular: 11 dígitos (DDD 11-99 + 9 dígitos começando com 9)
+ */
+export function isValidPhone(phone: string): boolean {
+  if (!phone || typeof phone !== 'string') return false;
+  const cleaned = phone.replace(/\D/g, '');
+  if (cleaned.length === 10) {
+    const ddd = parseInt(cleaned.substring(0, 2), 10);
+    return ddd >= 11 && ddd <= 99;
+  }
+  if (cleaned.length === 11) {
+    const ddd = parseInt(cleaned.substring(0, 2), 10);
+    return ddd >= 11 && ddd <= 99 && cleaned[2] === '9';
+  }
+  return false;
+}
+

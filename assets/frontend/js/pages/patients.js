@@ -206,8 +206,8 @@ async function renderPatientForm(editId) {
             <span class="form-error" id="patient-birth-error"></span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="patient-phone">Telefone</label>
-            <input type="tel" id="patient-phone" class="form-control" placeholder="(00) 00000-0000" maxlength="15" value="${patient.phone ? maskPhone(patient.phone) : ''}" />
+            <label class="form-label" for="patient-phone">Telefone <span class="required">*</span></label>
+            <input type="tel" id="patient-phone" class="form-control" placeholder="(00) 00000-0000" maxlength="15" required value="${patient.phone ? maskPhone(patient.phone) : ''}" />
             <span class="form-error" id="patient-phone-error"></span>
           </div>
         </div>
@@ -239,6 +239,7 @@ async function renderPatientForm(editId) {
   applyMask(document.getElementById('patient-phone'), maskPhone);
   setupCharCounter(document.getElementById('patient-name'), 150);
   setupCharCounter(document.getElementById('patient-address'), 255);
+  blockCopyPasteInForm(document.getElementById('patient-form'));
 
   // ── Navigation ──
   document.getElementById('btn-back-patients').addEventListener('click', () => renderPatientsPage());
@@ -251,7 +252,8 @@ async function renderPatientForm(editId) {
     const name = document.getElementById('patient-name').value;
     const cpf = document.getElementById('patient-cpf').value;
     const birthDate = document.getElementById('patient-birth').value;
-    const phone = document.getElementById('patient-phone').value.replace(/\D/g, '');
+    const rawPhone = document.getElementById('patient-phone').value;
+    const phone = rawPhone.replace(/\D/g, '');
     const email = document.getElementById('patient-email').value.trim();
     const address = document.getElementById('patient-address').value;
 
@@ -279,6 +281,14 @@ async function renderPatientForm(editId) {
       valid = false;
     } else {
       validateField(document.getElementById('patient-birth'), true);
+    }
+
+    // Phone
+    if (!isValidPhone(rawPhone)) {
+      validateField(document.getElementById('patient-phone'), false, 'Telefone é obrigatório (10 dígitos para fixo ou 11 para celular com 9).');
+      valid = false;
+    } else {
+      validateField(document.getElementById('patient-phone'), true);
     }
 
     // Email (optional but must be valid if provided)

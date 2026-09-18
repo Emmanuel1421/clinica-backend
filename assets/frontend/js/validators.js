@@ -82,6 +82,20 @@ function maskPhone(value) {
     .replace(/(\d{5})(\d)/, '$1-$2');
 }
 
+function isValidPhone(phone) {
+  if (!phone || typeof phone !== 'string') return false;
+  const cleaned = phone.replace(/\D/g, '');
+  if (cleaned.length === 10) {
+    const ddd = parseInt(cleaned.substring(0, 2), 10);
+    return ddd >= 11 && ddd <= 99;
+  }
+  if (cleaned.length === 11) {
+    const ddd = parseInt(cleaned.substring(0, 2), 10);
+    return ddd >= 11 && ddd <= 99 && cleaned[2] === '9';
+  }
+  return false;
+}
+
 // ── Currency ──
 function maskCurrency(value) {
   let v = value.replace(/[^\d.,]/g, '');
@@ -178,4 +192,19 @@ function clearFieldValidation(inputEl) {
   inputEl.classList.remove('error', 'success');
   const errorEl = inputEl.closest('.form-group')?.querySelector('.form-error');
   if (errorEl) errorEl.textContent = '';
+}
+
+// ── Block copy/paste/cut on an element ──
+function blockCopyPaste(el) {
+  ['copy', 'cut', 'paste', 'contextmenu'].forEach(evt => {
+    el.addEventListener(evt, (e) => {
+      e.preventDefault();
+      return false;
+    });
+  });
+}
+
+// ── Block copy/paste on all inputs in a form element ──
+function blockCopyPasteInForm(formEl) {
+  formEl.querySelectorAll('input, textarea').forEach(blockCopyPaste);
 }

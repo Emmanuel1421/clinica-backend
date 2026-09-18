@@ -7,6 +7,7 @@ const routes = {
   '#/register': renderRegisterPage,
   '#/pacientes': renderPatientsPage,
   '#/produtos': renderProductsPage,
+  '#/agendamentos': renderAppointmentsPage,
 };
 
 function initRouter() {

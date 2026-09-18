@@ -74,6 +74,7 @@ function renderLoginPage() {
   // ── Mask ──
   const cnpjInput = document.getElementById('login-cnpj');
   applyMask(cnpjInput, maskCnpj);
+  blockCopyPasteInForm(document.getElementById('login-form'));
 
   // ── Password toggle ──
   const pwInput = document.getElementById('login-password');
