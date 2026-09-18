@@ -85,4 +85,26 @@ const api = {
   deleteProduct(id) {
     return this._request('DELETE', `/produtos/${id}`);
   },
+
+  // ── Appointments ──
+  getAppointments(page = 1, limit = 20, filters = {}) {
+    const params = new URLSearchParams({ page, limit, ...filters });
+    return this._request('GET', `/agendamentos?${params.toString()}`);
+  },
+
+  getAppointment(id) {
+    return this._request('GET', `/agendamentos/${id}`);
+  },
+
+  createAppointment(data) {
+    return this._request('POST', '/agendamentos', data);
+  },
+
+  updateAppointment(id, data) {
+    return this._request('PUT', `/agendamentos/${id}`, data);
+  },
+
+  deleteAppointment(id) {
+    return this._request('DELETE', `/agendamentos/${id}`);
+  },
 };
