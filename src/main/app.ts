@@ -40,8 +40,8 @@ app.use(cors({
 // ═══════════════════════════════════════════════════════════════════════════════
 // TRÍADE CID — DISPONIBILIDADE
 // ═══════════════════════════════════════════════════════════════════════════════
-// • Rate Limiter: limita cada IP a 100 requisições por janela de 15 minutos nas
-//   rotas gerais, e 20 requisições por janela de 15 minutos nas rotas de autenticação
+// • Rate Limiter: limita cada IP a 100 requisições por janela de 30 segundos nas
+//   rotas gerais, e 20 requisições por janela de 30 segundos nas rotas de autenticação
 //   (prevenção de força bruta em login/registro).
 // • Request Timeout: encerra qualquer requisição que demore mais de 15 segundos,
 //   liberando recursos do servidor e evitando que conexões travadas acumulem.
@@ -51,8 +51,8 @@ app.use(cors({
 //   ao receber SIGTERM/SIGINT, evitando perda de dados em deploy/restart.
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// Rate limiter global — 100 req / 15 min por IP
-app.use(rateLimiter({ windowMs: 15 * 60 * 1000, max: 100 }));
+// Rate limiter global — 100 req / 30 seg por IP
+app.use(rateLimiter({ windowMs: 30 * 1000, max: 100 }));
 
 // Timeout global — 15 segundos por requisição
 app.use(requestTimeout(15_000));
@@ -82,7 +82,7 @@ app.use(express.static(path.join(process.cwd(), 'assets/frontend')));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 // Rate limiter mais restritivo para rotas de autenticação (anti brute-force)
-app.use('/api/auth', rateLimiter({ windowMs: 15 * 60 * 1000, max: 20, message: 'Muitas tentativas de login. Aguarde 15 minutos.' }), authRoutes);
+app.use('/api/auth', rateLimiter({ windowMs: 30 * 1000, max: 20, message: 'Muitas tentativas de login. Aguarde 30 segundos.' }), authRoutes);
 app.use('/api/pacientes', patientRoutes);
 app.use('/api/produtos', productRoutes);
 app.use('/api/agendamentos', appointmentRoutes);

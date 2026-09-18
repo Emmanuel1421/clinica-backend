@@ -20,7 +20,7 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
-// Limpa entradas expiradas a cada 60 segundos para evitar vazamento de memória (Disponibilidade)
+// Limpa entradas expiradas a cada 30 segundos para evitar vazamento de memória (Disponibilidade)
 setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of store) {
@@ -28,10 +28,10 @@ setInterval(() => {
       store.delete(key);
     }
   }
-}, 60_000);
+}, 30_000).unref();
 
 interface RateLimiterOptions {
-  /** Janela de tempo em milissegundos (padrão: 15 min) */
+  /** Janela de tempo em milissegundos (padrão: 30 seg) */
   windowMs?: number;
   /** Máximo de requisições por janela (padrão: 100) */
   max?: number;
@@ -43,7 +43,7 @@ interface RateLimiterOptions {
  * Cria um middleware de rate limiting configurável.
  */
 export function rateLimiter(options: RateLimiterOptions = {}) {
-  const windowMs = options.windowMs ?? 1 * 60 * 1000; // 1 minuto
+  const windowMs = options.windowMs ?? 30 * 1000; // 30 segundos
   const max = options.max ?? 100;
   const message = options.message ?? 'Muitas requisições. Tente novamente mais tarde.';
 
