@@ -57,8 +57,8 @@ export async function register(req: Request, res: Response, next: NextFunction):
       res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { cnpj: 'CNPJ inválido.' } });
       return;
     }
-    if (typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { email: 'E-mail inválido.' } });
+    if (typeof email !== 'string' || !email.endsWith('@gmail.com')) {
+      res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { email: 'E-mail inválido. Apenas domínios @gmail.com são permitidos.' } });
       return;
     }
     if (typeof password !== 'string' || password.length < 8 || password.length > 128) {

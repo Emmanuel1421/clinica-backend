@@ -27,8 +27,8 @@ export async function createProduct(req: Request, res: Response, next: NextFunct
       return;
     }
     const estoqueNum = Number(estoque);
-    if (estoque === undefined || estoque === null || isNaN(estoqueNum) || estoqueNum < 0 || !Number.isInteger(estoqueNum)) {
-      res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { estoque: 'Estoque obrigatório, inteiro e não pode ser negativo.' } });
+    if (estoque === undefined || estoque === null || isNaN(estoqueNum) || estoqueNum <= 0 || !Number.isInteger(estoqueNum)) {
+      res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { estoque: 'Estoque obrigatório, inteiro e deve ser maior que zero.' } });
       return;
     }
 
@@ -98,8 +98,8 @@ export async function updateProduct(req: Request, res: Response, next: NextFunct
     }
     if (estoque !== undefined) {
       const estoqueNum = Number(estoque);
-      if (isNaN(estoqueNum) || estoqueNum < 0 || !Number.isInteger(estoqueNum)) {
-        res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { estoque: 'Estoque inválido.' } });
+      if (isNaN(estoqueNum) || estoqueNum <= 0 || !Number.isInteger(estoqueNum)) {
+        res.status(400).json({ success: false, message: 'Dados inválidos.', errors: { estoque: 'Estoque inválido. Deve ser maior que zero.' } });
         return;
       }
     }

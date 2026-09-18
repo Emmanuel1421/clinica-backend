@@ -7,7 +7,7 @@ export class ProductService implements IProductService {
 
   async createProduct(data: CreateProductDTO): Promise<Product> {
     if (data.preco < 0) throw new Error('O preço não pode ser negativo.');
-    if (data.estoque < 0) throw new Error('O estoque não pode ser negativo.');
+    if (data.estoque <= 0) throw new Error('O estoque deve ser maior que zero.');
 
     const existingCode = await this.productRepository.findByCodigo(data.codigo);
     if (existingCode) {
@@ -19,7 +19,7 @@ export class ProductService implements IProductService {
 
   async updateProduct(id: string, data: UpdateProductDTO): Promise<Product> {
     if (data.preco !== undefined && data.preco < 0) throw new Error('O preço não pode ser negativo.');
-    if (data.estoque !== undefined && data.estoque < 0) throw new Error('O estoque não pode ser negativo.');
+    if (data.estoque !== undefined && data.estoque <= 0) throw new Error('O estoque deve ser maior que zero.');
 
     if (data.codigo) {
       const existingCode = await this.productRepository.findByCodigo(data.codigo);
