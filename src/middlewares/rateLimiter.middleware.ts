@@ -43,7 +43,7 @@ interface RateLimiterOptions {
  * Cria um middleware de rate limiting configurável.
  */
 export function rateLimiter(options: RateLimiterOptions = {}) {
-  const windowMs = options.windowMs ?? 15 * 60 * 1000; // 15 minutos
+  const windowMs = options.windowMs ?? 1 * 60 * 1000; // 1 minuto
   const max = options.max ?? 100;
   const message = options.message ?? 'Muitas requisições. Tente novamente mais tarde.';
 
