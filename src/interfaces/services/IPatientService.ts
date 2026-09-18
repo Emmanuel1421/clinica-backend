@@ -4,7 +4,7 @@ export interface CreatePatientDTO {
   name: string;
   cpf: string;
   birthDate: string; // YYYY-MM-DD
-  phone?: string;
+  phone: string;
   email?: string;
   address?: string;
 }

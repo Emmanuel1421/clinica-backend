@@ -1,12 +1,16 @@
 import { IPatientService, CreatePatientDTO, UpdatePatientDTO } from '../interfaces/services/IPatientService';
 import { IPatientRepository } from '../interfaces/repositories/IPatientRepository';
 import type { Patient } from '../models/Patient';
+import { isValidPhone } from '../utils/validators';
 
 export class PatientService implements IPatientService {
   constructor(private patientRepository: IPatientRepository) {}
 
   async createPatient(data: CreatePatientDTO): Promise<Patient> {
     if (!data.name.trim()) throw new Error('O nome não pode estar vazio.');
+    if (!data.phone || !isValidPhone(data.phone)) {
+      throw new Error('Telefone é obrigatório (10 dígitos para fixo ou 11 para celular com 9).');
+    }
     
     // Additional validation for CPF format/algorithm should be called here (e.g., validateCpf(data.cpf))
     // Here we clean it for storage:
@@ -28,6 +32,9 @@ export class PatientService implements IPatientService {
 
   async updatePatient(id: string, data: UpdatePatientDTO): Promise<Patient> {
     if (data.name !== undefined && !data.name.trim()) throw new Error('O nome não pode estar vazio.');
+    if (data.phone !== undefined && !isValidPhone(data.phone)) {
+      throw new Error('Telefone é obrigatório (10 dígitos para fixo ou 11 para celular com 9).');
+    }
 
     let cleanCpf: string | undefined = undefined;
     
