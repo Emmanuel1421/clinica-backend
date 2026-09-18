@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -10,12 +11,15 @@ import '../main/init-db';
 import authRoutes from '../routes/auth.routes';
 import patientRoutes from '../routes/patient.routes';
 import productRoutes from '../routes/product.routes';
+import appointmentRoutes from '../routes/appointment.routes';
 import { errorHandler } from '../middlewares/errorHandler.middleware';
 
 const app = express();
 
 // ─── Security ─────────────────────────────────────────────────────────────────
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false, // Disabled so frontend scripts load correctly
+}));
 app.use(cors({
   origin: process.env['CORS_ORIGIN'] || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -32,6 +36,7 @@ app.use(express.static(path.join(__dirname, '../../assets/frontend')));
 app.use('/api/auth', authRoutes);
 app.use('/api/pacientes', patientRoutes);
 app.use('/api/produtos', productRoutes);
+app.use('/api/agendamentos', appointmentRoutes);
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {

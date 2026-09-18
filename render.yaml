@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: clinica-sistema-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_TIMEOUT
+        value: "3600"
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: DATABASE_URL
+        value: /opt/render/project/src/data/database.sqlite
+    disk:
+      name: sqlite-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
