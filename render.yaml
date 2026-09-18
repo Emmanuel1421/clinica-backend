@@ -16,8 +16,4 @@ services:
       - key: CORS_ORIGIN
         value: "*"
       - key: DATABASE_URL
-        value: /opt/render/project/src/data/database.sqlite
-    disk:
-      name: sqlite-data
-      mountPath: /opt/render/project/src/data
-      sizeGB: 1
+        value: ./database.sqlite
