@@ -30,7 +30,7 @@ app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false, limit: '100kb' }));
 
 // ─── Static Frontend ────────────────────────────────────────────────────────────
-app.use(express.static(path.join(__dirname, '../../assets/frontend')));
+app.use(express.static(path.join(process.cwd(), 'assets/frontend')));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
@@ -48,7 +48,7 @@ app.use((req, res, next) => {
   if (req.path.startsWith('/api')) {
     res.status(404).json({ success: false, message: 'Rota não encontrada.' });
   } else {
-    res.sendFile(path.join(__dirname, '../../assets/frontend/index.html'));
+    res.sendFile(path.join(process.cwd(), 'assets/frontend/index.html'));
   }
 });
 
