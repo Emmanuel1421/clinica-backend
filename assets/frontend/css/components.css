@@ -856,3 +856,235 @@ textarea.form-control {
   color: var(--text-secondary);
   font-size: 0.85rem;
 }
+
+/* ── Appointments Layout ── */
+.appt-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .appt-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Calendar ── */
+.calendar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.calendar-month {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+
+.calendar-nav {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.calendar-nav:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--color-primary);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: var(--space-xs);
+}
+
+.calendar-weekdays span {
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-xs) 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  gap: 2px;
+}
+
+.cal-cell:not(.empty):hover {
+  background: var(--bg-hover);
+}
+
+.cal-cell.empty {
+  cursor: default;
+}
+
+.cal-cell.today .cal-day-num {
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-cell.selected {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid var(--color-primary);
+}
+
+.cal-day-num {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-dot {
+  font-size: 0.6rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  padding: 0 4px;
+  line-height: 1.5;
+  min-width: 14px;
+  text-align: center;
+}
+
+/* ── Day Panel ── */
+.appt-day-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.appt-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-surface-2);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.appt-empty {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.appt-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--transition-fast);
+}
+
+.appt-card:last-child {
+  border-bottom: none;
+}
+
+.appt-card:hover {
+  background: var(--bg-hover);
+}
+
+.appt-time {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+  min-width: 48px;
+  padding-top: 2px;
+}
+
+.appt-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.appt-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+.appt-patient {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.appt-notes {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.appt-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+/* Badge info */
+.badge-info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
